@@ -34,7 +34,6 @@ Written with Claude Code.
 - [Running it](#running-it)
 - [How UltiMed-ASR-FR-v1 was generated with it](#how-ultimed-asr-fr-v1-was-generated-with-it)
 - [Seeding and reproducibility](#seeding-and-reproducibility)
-- [Related repositories](#related-repositories)
 - [Licensing](#licensing)
 
 ## What is in this repository
@@ -101,22 +100,6 @@ Upstream also has no request-level route to the quality levers at all, and silen
 The patches fix both. `cfg_alpha`, `euler_steps` and `acoustic_temperature` become real request fields and are routed to the right stage, and each frame's start noise is drawn from its own `torch.Generator` seeded `SplitMix64(seed, frame_index)`. That makes a take reproducible **without restarting the container**, and unlike re-pinning the global RNG it survives concurrency, because each row gets its own stream rather than a slice of one sequence whose split depends on batch composition. In practice: `./tts.py --noise-seed 7 ...` returns identical audio at any point in the container's life.
 
 Against a stock (unpatched) server those flags are merged and ignored rather than rejected, so sending them is always safe; it just silently changes nothing. `test_seed_determinism.sh` skips its own last two tests when it detects a stock image.
-
-## Related repositories
-
-This container is one piece of a French medical ASR stack; every other piece is public.
-
-| Repository | What it is |
-| --- | --- |
-| [Olicorne/UltiMed-ASR-FR-v1](https://huggingface.co/datasets/Olicorne/UltiMed-ASR-FR-v1) | The dataset the fine-tune was trained on: 601,338 clips / 3,105 h of synthesized French medical speech, plus an eval-only [PARROT](https://doi.org/10.1016/j.ejrai.2025.100066) subset. |
-| [Olicorne/parakeet-tdt-0.6b-v3-ultra-UltiMed-onnx](https://huggingface.co/Olicorne/parakeet-tdt-0.6b-v3-ultra-UltiMed-onnx) | The French medical fine-tune trained on that dataset, exported to ONNX (fp32 / fp16 / int8 / w4a8). |
-| [Olicorne/parakeet-tdt-0.6b-v3-optimized-onnx](https://huggingface.co/Olicorne/parakeet-tdt-0.6b-v3-optimized-onnx) | The multilingual baseline the fine-tune builds on: the upstream ONNX re-quantized for int8 accuracy on long audio and graph-optimized for browser speed. |
-| [UltiMed-ASR-FR-v1-scripts](https://github.com/thiswillbeyourgithub/UltiMed-ASR-FR-v1-scripts) | The open recipe that built that dataset end to end: text sources, spoken-form normalization, the batch synthesis client, and the transcribe-and-rescore QC pass. |
-| [UltiMed-ASR-FR-v1-NeMo_training_scripts](https://github.com/thiswillbeyourgithub/UltiMed-ASR-FR-v1-NeMo_training_scripts) | The NeMo fork and training configs used to run the fine-tune itself. |
-| **This repository** | The Voxtral TTS container documented above. |
-| [Parakeet Web](https://github.com/thiswillbeyourgithub/parakeet_web) | The in-browser ASR app that loads either ONNX model, live at [parakeetweb.olicorne.org](https://parakeetweb.olicorne.org/). Everything runs client-side. |
-
-Upstream projects this repository is a thin layer over: [vllm-omni](https://github.com/vllm-project/vllm-omni), [vLLM](https://github.com/vllm-project/vllm), and the model [mistralai/Voxtral-4B-TTS-2603](https://huggingface.co/mistralai/Voxtral-4B-TTS-2603).
 
 ## Licensing
 
