@@ -78,9 +78,9 @@ Requirements: an NVIDIA GPU with enough VRAM for both stages (developed on a 24 
 
 The 601,338 clips of the dataset were synthesized against this server between 2026-07-05 and 2026-08-19, in a single `fr_female` voice, 24 kHz mono, no post-processing.
 
-The client that drove the bulk generation is **not** `tts.py` but [`05_generate_audio/01_generate_audio.py`](https://github.com/thiswillbeyourgithub/UltiMed-ASR-FR-v1-scripts/blob/main/05_generate_audio/01_generate_audio.py) in the scripts repository: a simplified, resumable batch client that reads the pipeline's JSONL and writes one file per row. `tts.py` here is the interactive tool used to tune the server and listen to single takes.
+The client that drove the bulk generation is **not** `tts.py` but [`05_generate_audio/01_generate_audio.py`](https://github.com/UltiMed-Org/UltiMed-ASR-FR-v1-scripts/blob/main/05_generate_audio/01_generate_audio.py) in the scripts repository: a simplified, resumable batch client that reads the pipeline's JSONL and writes one file per row. `tts.py` here is the interactive tool used to tune the server and listen to single takes.
 
-Two things about the text side are worth knowing, and both live in the scripts repository rather than here: the text handed to this server is a **deterministically normalized spoken form** of the written label (`utils/voxtral_normalize.py`), and every generated clip is transcribed back and scored, with bad clips regenerated (stage `06_hotfixes`). The model-specific pronunciation failures that motivated the normalizer are catalogued in [`01_dictionnary/VOXTRAL_QUIRKS.md`](https://github.com/thiswillbeyourgithub/UltiMed-ASR-FR-v1-scripts/blob/main/01_dictionnary/VOXTRAL_QUIRKS.md).
+Two things about the text side are worth knowing, and both live in the scripts repository rather than here: the text handed to this server is a **deterministically normalized spoken form** of the written label (`utils/voxtral_normalize.py`), and every generated clip is transcribed back and scored, with bad clips regenerated (stage `06_hotfixes`). The model-specific pronunciation failures that motivated the normalizer are catalogued in [`01_dictionnary/VOXTRAL_QUIRKS.md`](https://github.com/UltiMed-Org/UltiMed-ASR-FR-v1-scripts/blob/main/01_dictionnary/VOXTRAL_QUIRKS.md).
 
 **Caveat on exactness.** This is the container at the end of the project, i.e. the lineage that produced the dataset, not a byte-exact snapshot of any single generation day. The `v0.22.0` base landed on 2026-07-05, at the very start of generation, but the per-request seeding patches in `patches/` landed on 2026-07-27 to 07-31, partway through: clips generated before that date came off the same model and the same tuning, with the noise seeding done by a host-mounted monkeypatch instead (the history section of `patches/README.md` describes it). The tuning values in `docker-compose.yml` are the ones the run ended on.
 
@@ -105,4 +105,4 @@ Against a stock (unpatched) server those flags are merged and ignored rather tha
 
 This repository is AGPLv3 (see `LICENSE`). The files under `patches/` are diffs against [vllm-omni](https://github.com/vllm-project/vllm-omni), which is Apache 2.0; they are redistributed here as patches, under that project's terms, purely so the build is reproducible.
 
-Repository: <https://github.com/thiswillbeyourgithub/UltiMed-ASR-FR-v1-Voxtral>
+Repository: <https://github.com/UltiMed-Org/UltiMed-ASR-FR-v1-Voxtral>
