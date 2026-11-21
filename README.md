@@ -1,5 +1,13 @@
 # UltiMed-ASR-FR-v1-Voxtral
 
+> [!CAUTION]
+> **Obsolete.** This is the speech synthesis setup used for UltiMed-ASR-FR **v1**, kept for reference only. The v2 audio was produced with a newer setup (vLLM 0.22 with a patched vllm-omni), documented in [UltiMed-ASR-FR-v2-scripts](https://github.com/UltiMed-Org/UltiMed-ASR-FR-v2-scripts).
+
+> [!WARNING]
+> **Release in progress.** UltiMed v2 is being released right now. As long as this notice is here, files, links and numbers in this repository are still being changed.
+
+Part of [UltiMed-Org](https://github.com/UltiMed-Org), which lists every UltiMed repository, dataset and model.
+
 > [!IMPORTANT]
 > **Want faster improvements?** This project is entirely self-funded on my minimum-wage salary, and every training run competes for a single consumer GPU. If you or your organisation can donate an **RTX 5090**, or the money to buy one second-hand, it would directly speed up the next versions of the dataset and the fine-tuned models. Reach out via [olicorne.org](https://olicorne.org) or open an issue on this repository.
 
